@@ -7,6 +7,7 @@ The TIBBE-Web is part of the larger [BrainWeb](https://brain-web.github.io) and 
 
 Come join the TIBBE community at [https://TIBBE-network.github.io](https://TIBBE-network.github.io).
 
+![](images/landing/TIBBE_BrainWeb.png)
 
 ## TIBBE idea
 
