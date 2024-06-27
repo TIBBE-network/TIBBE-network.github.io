@@ -110,7 +110,7 @@ const chart = (data, {width, height, radius, userClickFn}) => {
 };
 
 const getUuid = () => crypto.getRandomValues(new Uint32Array(1))[0].toString(16);
-const worker = new Worker('./worker.js');
+const worker = new Worker('/community/worker.js');
 const workerFnWrapper = (method, param) => new Promise((resolve, reject) => {
   const uuid = getUuid();
   worker.postMessage({

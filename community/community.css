@@ -43,6 +43,27 @@
     -ms-user-select: none;
     user-select: none;
 }
+#conftitle h1 {
+    font-family: 'Roboto', sans-serif !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal;
+    font-size: 3.4rem;
+    font-weight: 900;
+    opacity: 1.0;
+}
+#conftitle h1 {
+    padding-top: 10vh;
+    padding-left: 5%;
+    flex-shrink: 1;
+    font-family: 'Roboto', sans-serif !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal;
+    font-size: 3.4rem;
+    font-weight: 900;
+    opacity: 1.0;
+    background: none!important;
+    z-index:51;
+}
 #network {
     z-index: 50;
     position: fixed;
