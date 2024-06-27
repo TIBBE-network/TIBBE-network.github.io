@@ -3,9 +3,9 @@ $(document).ready(function(){
 
     /* This code has to be executed after ".header" height is changed */
     var h = window.location.hash;
-    if (h && h.split("=")[0] !== "#zoom") {
+    if (h) {
         setTimeout(()=>{
-            // console.log("BIM", h, $(h).offset().top)
+            console.log("BIM", h, $(h).offset().top)
             $('html, body').stop().animate({
                 scrollTop : $(h).offset().top
             }, 1000);
@@ -29,7 +29,7 @@ $(document).ready(function(){
     });
 
     /* toggle logo once it is hovered over */
-    $(".logo").hover(
+    $(".logo_brainweb").hover(
         /*function() {$(this).attr("src","../images/logo/logo_inverted.svg");},
         function() {$(this).attr("src","../images/logo/logo.svg");*/
         function(){

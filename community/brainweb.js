@@ -1,158 +1,81 @@
-function chart(data, {width, height, radius, clickCallback}) {
-  const zoom = 1.5;
-  const nodes = data.nodes;
-  const links = data.links;
-  const simulation = d3.forceSimulation(nodes)
-    .velocityDecay(0.1)
-    // .force("x", d3.forceX(width * 0.5).strength(0.005))
-    // .force("y", d3.forceY(height * 0.5 + height * 0.05).strength(0.005))
-    .force("link", d3.forceLink(links).id(d => d.id).distance((link) => {
-      const dist = Math.sqrt((link.source.x - link.target.x)**2 + (link.source.y - link.target.y)**2);
-      return dist;
-    }))
-    .force("collision", d3.forceCollide(5*zoom));
+import * as BWData from "./brainweb-data.js";
+import * as BWFirebase from "./brainweb-firebase.js";
+import * as BWGraph from "./brainweb-graph.js";
+import * as BWUI from "./brainweb-ui.js";
 
-  const svg = d3.create("svg")
-    .attr("viewBox", [0, 0, width, height])
-    .attr("style", "background-color: rgba(0,0,0,0)");
+export const data = {
+  appSel: null,
+  networkSel: null,
+  circleName: null,
+  circleSkill: null,
+  filterSkills: null
+};
 
-  const link = svg
-    .append("g")
-    .attr("stroke", "#faa")
-    .attr("stroke-opacity", 0.3)
-    .selectAll("line")
-    .data(links)
-    .join("line")
-      .attr('class', 'link')
-      .attr("stroke-width", d => zoom * Math.pow(d.value,1/4));
+const dataReceived = async (circle) => {
+  BWUI.databaseDicToPeopleArr(circle);
 
-  function mouseover() {
-    d3.select(this).transition()
-      .duration(50)
-      .attr("r", radius * zoom * 1.5);
-  }
-
-  function mouseout() {
-    d3.select(this).transition()
-      .duration(50)
-      .attr("r", radius * zoom);
-  }
-
-  const node = svg.append("g")
-    .selectAll(".node")
-    .data(nodes)
-    .join("g")
-      .attr('class', 'node')
-      .call(drag(simulation))
-
-  const scale = d3.scaleOrdinal(d3.schemePaired);
-  node.append('circle')
-    .attr('class', (d) => d.classes || '')
-    .attr("r", radius * zoom)
-    .attr("fill", (d)=>{return scale(d.group);})
-    .on("click", (d) => {
-      const {index} = d;
-      clickCallback(data.nodes[index]);
-    })
-    .on("mouseover", mouseover)
-    .on("mouseout", mouseout);
-  
-  node.append("text")
-    .attr('class', (d) => (d.classes || '') + ' name')
-    .text((d) => d.id)
-    .attr('x', 6)
-    .attr('y', 3);
-  
-  simulation.on("tick", () => {
-    link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
-
-    node
-        .attr("transform", d => `translate(${d.x}, ${d.y})`);
+  await BWUI.addCurrentUser({
+    circleName: data.circleName,
+    circleSkill: data.circleSkill,
+    updateUserFn: BWFirebase.updateUser
   });
 
-  return svg.node();
-}
+  const filteredPeople = BWData.filterPeople({
+    people: BWUI.getAttribute("people"),
+    filterSkills: data.filterSkills
+  });
 
-const drag = (simulation) => {
-  function dragstarted(d) {
-    d3.event.sourceEvent.preventDefault();
-    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
+  if(typeof filteredPeople === "undefined") {
+    console.log("No people left after filtering");
+    BWUI.setAttributes({spinning: false});
+
+    return;
   }
-  function dragged(d) {
-    d3.event.sourceEvent.preventDefault();
-    d.fx = d3.event.x;
-    d.fy = d3.event.y;
+
+  if(filteredPeople.length < 15) {
+    console.log("Graph too small to proceed", filteredPeople.length);
+    BWUI.setAttributes({spinning: false});
+
+    return;
   }
-  function dragended(d) {
-    d3.event.sourceEvent.preventDefault();
-    if (!d3.event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
-  return d3.drag()
-      .on("start", dragstarted)
-      .on("drag", dragged)
-      .on("end", dragended);
-}
 
-const color = function () {
-  const scale = d3.scaleOrdinal(d3.schemePaired);
-  return d => scale(d.group);
-}
+  await BWGraph.addBrainWebToElement({
+    sel: data.networkSel,
+    people: filteredPeople,
+    userDisplayName: BWUI.getAttribute("userDisplayName"),
+    userClickFn: (user) => { BWUI.displayUserCard(filteredPeople[user.index]); }
+  });
 
-function openUserCard(user) {
-  console.log("Click on node", index);
-  return user;
-}
+  BWUI.setAttributes({spinning: false});
+};
 
-// const worker = new Worker('./worker.js')
-const worker = new Worker('./community/worker.js')
+export const init = (params) => {
+  data.appSel = params.appSel;
+  data.networkSel = params.networkSel;
+  data.circleName = params.circleName;
+  data.circleSkill = params.circleSkill;
+  data.filterSkills = params.filterSkills;
 
-function getUuid(){
-    return crypto.getRandomValues(new Uint32Array(1))[0].toString(16)
-}
+  BWUI.init({
+    appSel: params.appSel,
+    circleName: params.circleName,
+    updateUserFn: BWFirebase.updateUser
+  });
 
-function workerFnWrapper(method, param){
-    return new Promise((rs, rj) => {
-        const uuid = getUuid()
-        worker.postMessage({
-            id: uuid,
-            method,
-            param
-        })
+  BWFirebase.init({
+    BWData,
+    dataReceivedFn: dataReceived
+  });
 
-        const handleMessage = ev => {
-            if (ev.data.id === uuid) {
-                worker.removeEventListener('message', handleMessage)
-                const { result, error } = ev.data
-                result && rs(result)
-                error && rj(error)
-            }
-        }
-        worker.addEventListener('message', handleMessage)
-    })
-}
+  // eslint-disable-next-line no-undef
+  startFirebase();
 
-async function addBrainWebToElement(el, people, loggedDisplayName, clickCallback) {
-    const width = document.querySelector("#networkContainer").offsetWidth;
-    const height = document.querySelector("#networkContainer").offsetHeight;
-    const {
-        prunedNetwork,
-        radius
-    } = await workerFnWrapper('addBrainWebToElement', {
-        people,
-        loggedDisplayName,
-        width, height
-      
-    })
-    // display network
-    const mysvg = chart(prunedNetwork, {width, height, radius, clickCallback});
-    document.querySelector(el).innerHTML="";
-    document.querySelector(el).appendChild(mysvg);
-}
+  window.addEventListener('load', () => {
+    // eslint-disable-next-line no-undef
+    initApp({
+      loginUserFn: BWUI.loginUser,
+      logoutUserFn: BWUI.logoutUser
+    });
+    BWFirebase.listen(data);
+  });
+};

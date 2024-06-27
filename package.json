@@ -1,0 +1,26 @@
+{
+  "name": "tibbe-network.github.io",
+  "version": "0.0.1",
+  "description": "permanent place for neuroscience collaboration online",
+  "main": "index.html",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TIBBE-network/TIBBE-network.github.io.git"
+  },
+  "keywords": [
+    "neuroscience",
+    "collaboration"
+  ],
+  "author": "Roberto Toro <rto@braincatalogue.org> (https://neuroanatomy.github.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TIBBE-network/TIBBE-network.github.io/issues"
+  },
+  "homepage": "https://github.com/TIBBE-network/TIBBE-network.github.io#readme",
+  "devDependencies": {
+    "eslint-config-naat": "git+https://github.com/neuroanatomy/eslint-config-naat.git"
+  }
+}

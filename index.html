@@ -1,1329 +1,487 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>TIBBE-BrainWeb</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/quasar@1.9.10/dist/quasar.min.css" rel="stylesheet" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css" rel="stylesheet">
+<head>
+    <title>BrainWeb</title>
 
-        <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-        <!-- <link rel="icon" type="image/svg+xml" href="./images/logo/dots.svg"> -->
-        <link
-            rel="icon"
-            sizes="any"
-            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Ccircle cx='5' cy='4.9' r='5' fill='rgb(0, 220, 180)'/%3E%3Ccircle cx='5' cy='5.1' r='4.8' fill='rgb(0, 120, 80)'/%3E%3Ccircle cx='5' cy='6.1' r='3.5' fill='rgb(0, 80, 150)'/%3E%3Ccircle cx='5' cy='7.1' r='2' fill='rgb(0, 50, 150)'/%3E%3C/svg%3E"
-        >
+    <link href="https://cdn.jsdelivr.net/npm/quasar@1.9.10/dist/quasar.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css" rel="stylesheet">
 
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script src="./js/main.js"></script>
-    </head>
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:700" rel="stylesheet">
 
-    <style>
-        html, body {
-            margin:0;
-            padding:0;
-        }
-        a {
-            color: white;
-            font-weight: bold;
-        }
-        a:hover, a:focus, a:active {
-            color: #AAA;
-        }
-        .userIcon {
-            width: 32px;
-            height: 32px;
-            clip-path: circle(16px at center);
-        }
-        #userAvatar {
-            display: none;
-        }
-        .auth-dialog > div:first-child {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            background: rgba(0,0,0,0.5);
-            border: thin solid #777;
-            transform: translate(-50%, -50%);
-            z-index: 1050;
-        }
-        #loginStatus a {
-            border-bottom: none;
-            color: white;
-        }
-        #loginStatus a:hover {
-            /* border-bottom: 1px solid rgb(190, 181, 181); */
-            border-bottom: none;
-            color: grey;
-            opacity: 0.6;
-        }
-        #firebaseui-auth-container * {
-            font-size: 2rem;
-        }
-        #sign-in p {
-            font-weight: 300;
-        }
-        /* #text {
-            position: relative;
-            padding:1em;
-            padding-top: 5em;
-            pointer-events: none;
-            background-image: linear-gradient(rgba(20,20,20,0), rgba(20,20,20,0.25), rgba(20,20,20,0.75), rgba(20,20,20,0.75),rgba(20,20,20,0));
-            z-index: 100;
-        } */
-        .textparagraph p {
-            width: 100%;
-            position:relative;
-            padding: 1rem;
-            /* background-image: linear-gradient(rgba(20,20,20,0), rgba(20,20,20,0.5), rgba(20,20,20,0.75), rgba(20,20,20,0.5),rgba(20,20,20,0)); */
-            background: rgba(0,0,0,0.3);
-            line-height: 1.8;
-            font-weight: 300;
-        }
-        #program p {
-            width: 100%;
-            position:relative;
-            margin: 0.3rem 0;
-            /* background-image: linear-gradient(rgba(20,20,20,0), rgba(20,20,20,0.5), rgba(20,20,20,0.75), rgba(20,20,20,0.5),rgba(20,20,20,0)); */
-            line-height: 1.8;
-            font-weight: 300;
-        }
-        #program p blu {
-            color: #c0fefe;
-        }
-        #program pg {
-            width: 100%;
-            position:relative;
-            margin: 0.3rem 0;
-            /* background-image: linear-gradient(rgba(20,20,20,0), rgba(20,20,20,0.5), rgba(20,20,20,0.75), rgba(20,20,20,0.5),rgba(20,20,20,0)); */
-            line-height: 1.8;
-            font-weight: 300;
-            color: #aaaaaa;
-        }
-        #landinggraph a, #program a, #bestexperience a, #submit a, #register a {
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-        }
-        #landinggraph a:hover,
-        #landinggraph a:focus,
-        #landinggraph a:active,
-        #program a:hover,
-        #program a:focus,
-        #program a:active,
-        #bestexperience a:hover,
-        #bestexperience a:focus,
-        #bestexperience a:active,
-        #submit a:hover,
-        #submit a:focus,
-        #submit a:active,
-        #register a:hover,
-        #register a:focus,
-        #register a:active {
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-            color: grey;
-        }
-        #organizers a {
-            font-weight: 500;
-            text-decoration: none;
-            border: none;
-        }
-        #organizers a:hover,
-        #organizers a:focus,
-        #organizers a:active {
-            font-weight: 500;
-            text-decoration: none;
-            border: none;
-            color: grey;
-        }
-        #CoC p {
-            width: 100%;
-            position:relative;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-        #CoC a {
-            font-weight: 500;
-            text-decoration: none;
-            border: none;
-        }
-        #CoC a:hover,#CoC a:focus,#CoC a:active {
-            font-weight: 500;
-            text-decoration: none;
-            border: none;
-            color: grey;
-        }
-        h4 {
-            font-weight: 600;
-        }
-
-        /* first page container */
-        #community {
-            display:flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100vh;
-            /* background-color: #111111; */
-
-            /* background-image: url("./images/landing/networkgraph_bg.jpg");
-            background-size: cover;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-position: center; */
-            /* justify-content: space-around;
-            align-items: center; */
-            /* background-image: url("./images/landing/networkgraph_bg.jpg"); */
-        }
-        #conftitle h1 {
-            font-family: 'Roboto', sans-serif !important;
-            line-height: 1.2 !important;
-            letter-spacing: normal;
-            font-size: 6.8rem;
-            font-weight: 900;
-            opacity: 1.0;
-        }
-        #conftitle {
-            padding-top: 10vh;
-            padding-left: 5%;
-            flex-shrink: 1;
-            font-family: 'Roboto', sans-serif !important;
-            line-height: 1.2 !important;
-            letter-spacing: normal;
-            font-size: 4.8rem;
-            font-weight: 900;
-            opacity: 1.0;
-            background: none!important;
-            z-index:51;
-        }
-        #networkContainer {
-            flex-grow: 1;
-        }
-        #networkInfo {
-            z-index: 50;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            color: #AAA;
-            padding: 2% 3%;
-            font-size: 2rem;
-            text-align: right;
-            position: absolute;
-            bottom: 2%;
-            right: 2%;
-        }
-        #networkInfo a {
-            color: white;
-            font-weight: bold;
-            display: inline-block;
-            font-size: 2rem;
-            background: rgba(1,1,1,.3);
-            padding: 10px;
-        }
-        #networkInfo a:hover, #networkInfo a:focus, #networkInfo a:active {
-            color: #AAA;
-        }
-        #network {
-            z-index: 50;
-            flex-grow: 1;
-            display: flex;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-        @media only screen and (-webkit-max-device-pixel-ratio: 2) and (min-width: 900px) {
-            #network svg text {
-                font-size: 1.5rem !important;
-            }
-        }
-        #network svg {
-            flex-grow: 1;
-        }
-
-        @keyframes shinebrightlikeadiamond {
-            0% { stroke-width: 0; stroke-opacity: 1; }
-            70% { stroke-width: 10px; stroke-opacity: 0.5; }
-            100% { stroke-width: 0; stroke-opacity: 0; }
-        } 
-        #network svg circle.logged {
-            stroke-width: 0;
-            stroke: #DDD;
-            animation: shinebrightlikeadiamond 1s ease infinite;
-        }
-        #network svg .link {
-            stroke: #fff;
-            stroke-opacity: 0.2;
-        }
-        #network svg .name {
-            fill: rgb(255,255,255,0.3);
-            font-size: 0.7rem;
-        }
-        #network svg circle:hover + .name{
-            fill: rgb(255,255,255,1);
-        }
-        #network svg text {
-            cursor: default;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            pointer-events: none;
-        }
-        #network svg text::selection {
-            background: none;
-        }
-        /* [v-cloak] {
-            display: none;
-        } */
-        .col a:hover, .col a:focus, .col a:active, .text-h6 a:hover, .text-h6 a:focus, .text-h6 a:active {
-            color: grey!important;
-        }
-        .row {
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-        }
-        .col {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-        }
-        #landinggraph {
-            padding-top: 3rem;
-            padding-bottom: 6rem;
-            background: rgba(0,0,0,0.8);
-            /* background-image: url('./images/landing/background_s.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-position: center;
-            filter: grayscale(50%) contrast(150%) opacity(30%);
-            -webkit-filter: grayscale(80%) contrast(150%) opacity(100%); */
-        }
-        #landinggraph p, #bestexperience p, #submit p, #register p, #organizers p {
-            background: none;
-            padding-top: 0.6rem;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-
-        #program {
-            /* background: rgba(30,0,0,0.5); */
-            padding-bottom: 6rem;
-            background-color: rgba(0,0,0,0.0);
-            /* background: rgba(0,0,0,0.8); */
-            /* background-image: url('./images/landing/background.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-position: center;
-            filter: grayscale(50%) contrast(150%) opacity(30%);
-            -webkit-filter: grayscale(80%) contrast(150%) opacity(100%); */
-        }
-        #program .container {
-            padding-left: 0;
-            padding-right: 0;
-        }
-        #programTableContainer {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            position: relative;
-        }
-        .programTableHeader {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            position: relative;
-        }
-        #programTableDays {
-            display: flex;
-            flex-direction: row;
-            align-items: start;
-            width: 100%;
-            /* background-image: url('./images/landing/program_bg.jpg'); */
-        }
-        .programDayHeader {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            position: relative;
-            padding-bottom: 2rem;
-            /* background: rgba(255,255,255,0.8);
-            color: black;
-            padding-left: 1%; */
-        }
-        .programDayHeader p {
-            font-weight: 900!important;
-        }
-        #programDay1 {
-            display: flex;
-            width: 50%;
-            flex-direction: column;
-            justify-content: flex-start;
-            position: relative;
-            align-items: baseline;
-            padding-left: 1%;
-            padding-right: 1%;
-            padding-bottom: 1%;
-            /* padding-bottom: 1%; */
-            margin-right: 1%;
-            /* background: rgba(255,255,255,0.05); */
-            background: rgba(15,15,15,0.8);
-            /* border: thin solid white; */
-            flex-shrink: 1;
-        }
-        #programDay2 {
-            display: flex;
-            width: 50%;
-            flex-direction: column;
-            justify-content: flex-start;
-            position: relative;
-            align-items: baseline;
-            padding-right: 1%;
-            padding-left: 1%;
-            padding-bottom: 1%;
-            /* padding-bottom: 1%; */
-            margin-left: 1%;
-            /* background: rgba(255,255,255,0.05); */
-            background: rgba(15,15,15,0.8);
-            /* background: rgba(0,0,0,0.35); */
-            flex-shrink: 1;
-        }
-        .programSessionsEmpty {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            position: relative;
-            height: 0rem;
-            background: rgba(255,255,255,0.11);
-        }
-        /* .programSessions {
-            display: flex;
-            position: relative;
-            width: 100%;
-            flex-direction: row;
-            justify-content: flex-start;
-            background: rgba(255,255,255,0.8);
-            color: black;
-            padding-left: 1%;
-        } */
-        .programTableContentUneven {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: baseline;
-            align-content: space-between;
-            position: relative;
-            /* width: calc( 100% - 10px ); */
-            width: 100%;
-            background: rgba(255,255,255,0.3);
-            margin: 0px;
-            z-index: 1;
-        }
-        .programTableContentEven {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: baseline;
-            align-content: space-between;
-            position: relative;
-            /* width: calc( 100% - 10px ); */
-            width: 100%;
-            background: rgba(255,255,255,0.1);
-            margin: 0px;
-            z-index: 1;
-        }
-        .programTableContentUnevenContrib {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: baseline;
-            align-content: space-between;
-            position: relative;
-            /* width: calc( 100% - 10px ); */
-            width: 100%;
-            background: rgba(255,255,255,0.18);
-            margin: 0px;
-            z-index: 1;
-        }
-        .programTableContentEvenContrib {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: baseline;
-            align-content: space-between;
-            position: relative;
-            /* width: calc( 100% - 10px ); */
-            width: 100%;
-            background: rgba(255,255,255,0.13);
-            margin: 0px;
-            z-index: 1;
-        }
-        @media (max-width: 900px) {
-            .programTableContentUnevenContrib {
-                flex-direction: column;
-            }
-            .programTableContentEvenContrib {
-                flex-direction: column;
-            }
-            .programTableContentUnevenContrib > div:nth-child(1) > p {
-                font-weight: bold !important;
-            }
-            .programTableContentEvenContrib > div:nth-child(1) > p {
-                font-weight: bold !important;
-            }
-        }
-        .programTableItems {
-            border: 0;
-            flex: 1 1 100%;
-            position: relative;
-            margin: 0.5rem;
-        }
-        #programDay1 p {
-            background: none;
-        }
-        #programDay2 p {
-            background: none;
-        }
-        .programSessions {
-            display: flex;
-            position: relative;
-            width: 100%;
-            flex-direction: row;
-            justify-content: flex-start;
-            background: rgba(255,255,255,0.8);
-            color: black;
-            padding-left: 1%;
-        }
-        .programSessionInfo {
-            display: flex;
-            position: relative;
-            width: 100%;
-            flex-direction: row;
-            justify-content: flex-start;
-            background: rgba(255,255,255,0.18);
-            color: white;
-            padding-left: 1%;
-        }
-        #bestexperience {
-            padding-top: 6rem;
-            padding-bottom: 6rem;
-            background: rgba(0,0,0,0.8);
-            /* background-image: url('./images/landing/background_s.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-position: center;
-            filter: grayscale(50%) contrast(150%) opacity(30%);
-            -webkit-filter: grayscale(80%) contrast(150%) opacity(100%); */
-        }
-        #bestexperience b {
-            font-weight: 600;
-        }
-        #posterlist p {
-            line-height: 1.3;
-            font-size: 2rem;
-            font-weight: 300;
-            margin-top: 1rem;
-        }
-        .posterUneven {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: baseline;
-            align-content: space-between;
-            position: relative;
-            /* width: calc( 100% - 10px ); */
-            width: 100%;
-            background: rgba(255,255,255,0.3);
-            margin: 0px;
-            z-index: 1;
-        }
-        .posterEven {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: baseline;
-            align-content: space-between;
-            position: relative;
-            /* width: calc( 100% - 10px ); */
-            width: 100%;
-            background: rgba(255,255,255,0.1);
-            margin: 0px;
-            z-index: 1;
-        }
-        #submit {
-            /* background: rgba(220, 220, 220, 0.1); */
-            padding-top: 6rem;
-            padding-bottom: 6rem;
-            background: rgba(0,0,0,0.8);
-            /* background-image: url('./images/landing/background_s.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-position: center;
-            filter: grayscale(50%) contrast(150%) opacity(30%);
-            -webkit-filter: grayscale(80%) contrast(150%) opacity(100%); */
-        }
-        #submit li {
-            background: none;
-            /* padding-top: 0.6rem; */
-            line-height: 1.8;
-            font-size: 2rem;
-            font-weight: 300;
-        }
-        #register {
-            /* background: rgba(0, 0, 0, 0.1); */
-            padding-top: 6rem;
-            padding-bottom: 6rem;
-            background: rgba(0,0,0,0.8);
-            /* background-image: url('./images/landing/background.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-position: center;
-            filter: grayscale(50%) contrast(150%) opacity(30%);
-            -webkit-filter: grayscale(80%) contrast(150%) opacity(100%); */
-        }
-        #organizers {
-            /* background: rgba(220, 220, 220, 0.1); */
-            padding-top: 6rem;
-            padding-bottom: 6rem;
-            background: rgba(0,0,0,0.8);
-            /* background-image: url('./images/landing/background_s.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-position: center;
-            filter: grayscale(50%) contrast(150%) opacity(30%);
-            -webkit-filter: grayscale(80%) contrast(150%) opacity(100%); */
-        }
-        #organizerColumns {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            position: relative;
-            /* background: rgba(150,150,150,0.1); */
-        }
-        #organizerColumnLeft {
-            display: flex;
-            width: 50%;
-            flex-direction: column;
-            justify-content: flex-start;
-            position: relative;
-            align-items: baseline;
-            padding-left: 1%;
-            padding-right: 1%;
-            margin-right: 2%;
-            /* background: rgba(150,150,150,0.1); */
-        }
-        #organizerColumnRight {
-            display: flex;
-            width: 50%;
-            flex-direction: column;
-            justify-content: flex-start;
-            position: relative;
-            align-items: baseline;
-            padding-left: 1%;
-            padding-right: 1%;
-            margin-left: 2%;
-            /* background: rgba(150,150,150,0.1); */
-        }
-        /* #organizerCardContainer {
-            display: flex;
-            width: 100%;
-            flex-direction: column;
-            justify-content: flex-start;
-            position: relative;
-            align-items: baseline;
-            padding-left: 1%;
-            padding-right: 1%; */
-            /* margin-right: 1%; */
-            /* background: rgba(150,150,150,0.1); */
-        /* } */
-        .organizerCard {
-            flex: 1 1 25%;
-            padding: 1%;
-            position: relative;
-            /* background: rgba(15,15,15,0.1); */
-            /* margin: 1%; */
-        }
-
-        [v-cloak] {
-            display: none;
-        }
-    </style>
-
-    <body>
-        <!-- navigation bar -->
-        <!-- data value of nav bar corresponds to id in each section -->
-        <nav class="navbar navbar-expand-lg fixed-top ">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
 
 
-            <button class="navbar-toggler landing-page myCollapsedMenuBarIcon" id="myMenuBtn" type="button" data-toggle="collapse" data-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation" style="padding:0;border:none; width:1.5em;height:1.5em;" onclick="this.blur();">
-            </button>
+<body>
 
-            <div class="collapse navbar-collapse" id="myMenu" style="width:100%;">
-                <ul class="navbar-nav mr-4" >
-                    <li class="nav-item">
-                        <a class="nav-link" href="./projects/">Projects</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" data-value="landinggraph" href="#">About</a>
-                    </li> -->
-                    <!--<li class="nav-item">
-                        <a class="nav-link" data-value="program" href="#">Program</a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" data-value="submit" href="#">Submit</a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" data-value="posterlist" href="#">Posterlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./posterwall/">Posterwall</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-value="register" href="#">Register</a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="./videoconference/">Videoconference</a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                        <span class="nav-link" id="loginStatus" style="border-bottom:none"></span>
-                    </li>-->
-                    <li class="nav-item" id="userAvatar">
-                        <img class="userIcon"/>
-                    </li>
-                </ul>
+    <!-- Firebase authentication -->
+    <div id="firebaseui-auth-container" class="auth-dialog"></div>
+
+    <!-- navigation bar -->
+    <!-- currently, the fixed top class is added, so it sticks to the top -->
+    <!-- data value of nav bar corresponds to id in each section -->
+    <nav class="navbar navbar-expand-lg fixed-top ">
+
+        <a class="navbar-brand" href="/">
+            <div class="logo_brainweb">
+                <p style="padding-left:4em;color:white;cursor:pointer;font-size:14px;font-weight:300;line-height:2.7;vertical-align: middle;">BrainWeb</p>
             </div>
-        </nav>
+        </a>
 
-        <div id="q-app">
+        <button class="navbar-toggler landing-page myCollapsedMenuBarIcon" id="myMenuBtn" type="button" data-toggle="collapse" data-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation" style="padding:0;border:none; width:1.5em;height:1.5em;"
+            onclick="this.blur();">
+        </button>
 
-            <!-- part 1: Community network : TIBBE community -->
-            <div id="community">
-                <div id="conftitle">
-                    <h1>TIBBE-BrainWeb</h1>
-                </div>
+        <style>
+            .userIcon {
+                width: 32px;
+                height: 32px;
+                clip-path: circle(16px at center);
+            }
+            
+            #userAvatar {
+                display: none;
+            }
+            
+            .auth-dialog>div:first-child {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                background: rgba(0, 0, 0, 0.5);
+                border: thin solid #777;
+                transform: translate( -50%, -50%);
+                z-index: 1050;
+            }
+            
+            #loginStatus a {
+                border-bottom: none;
+            }
+            
+            #loginStatus a:hover {
+                border-bottom: 1px solid white;
+            }
+            
+            #csv {
+                margin-top: 4em;
+                margin-bottom: 2em;
+            }
+        </style>
 
-                <div id="networkContainer">
-                    <div id="network"></div>
-                    <div id="networkInfo" v-if="!spinning && !userSignedIn">
-                        <a href="#" onclick="signIn(app)">Join the network!</a>
-                    </div>
-                </div>
+        <div class="collapse navbar-collapse" id="myMenu" style="width:100%;">
+            <ul class="navbar-nav mr-4">
+                <li class="nav-item">
+                    <a class="nav-link" data-value="home" href="#">BrainWeb</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-value="events" href="#">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/series/">Series</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/projects/">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/community/">Community</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/videoconference/">Videoconference</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="/ohbm2020/">OHBM posters</a>
+                </li> -->
+                <li class="nav-item">
+                    <span class="nav-link" id="loginStatus" style="border-bottom:none"><a style="color:white" href="#" onclick="signIn()">Sign In</a></span>
+                </li>
+                <li class="nav-item" id="userAvatar">
+                    <img class="userIcon" />
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-                <q-spinner-ball
-                    color="white"
-                    size="4em"
-                    v-if="spinning"
-                    style="position:absolute;top:50%;left:50%;transform: translate( -50%, -50%);z-index:1000"
-                >
-                </q-spinner-ball>
+    <!-- my header -->
 
-                <q-dialog v-model="displaySignIn" id="sign-in">
-                    <q-card>
-                        <q-card-section>
-                            <p>
-                            This is the <strong>TIBBE-BrainWeb</strong> community graph.
-                            Add yourself to the graph by signing in with GitHub, add your skills to take your place in the network graph.
+    <header class="header" id="myheader"
+        style="filter:grayscale(0);-webkit-filter: grayscale(0.2);">
+        <div class="overlay">
+        </div>
+        <div class="container no-quasar">
+            <div class="row" style="justify-content: center;">
+
+                <!-- <div id="chart"></div> -->
+                <div id="chart2"></div>
+
+
+                <div id="intro" style="color:white;position:absolute;top:8em;text-align:left;padding:0.25em">
+                    <h1 id="introbrainweb" style="margin-bottom:-1.5rem">BrainWeb</h1>
+                    <h1 class="introneurocollab" style="font-size:1.5rem">NEUROSCIENCE COLLABORATION</h1>
+                    
+
+                    <!-- <h1
+                        class="introneurocollab"
+                        style="font-size:1.5rem;margin-top:3rem;margin-bottom:1rem"
+                    >Next event:</h1>
+                    <h2 id="introkickoff" style="border-bottom:thin solid #999">
+                        BrainWeb Series</h2>
+
+                    <div>
+                        <div style="display:inline-block;width:500px">
+                            <h2 style="font-size:3rem;margin-bottom:3rem">
+                                <span style="font-weight:500;display:block;">Alexandra de Sousa</span>
+                                <i>"Four questions about brain and behaviour"</i>
+                            </h2>        
+                            <div style="font-size:1.5rem;margin-bottom:1rem">Join us 25 April 2022</div>
+                            <p style="font-size: 1.25rem;column-count: 2;">
+                                🌍 UTC 3pm <br />
+                                🇫🇷 Paris 5pm<br />
+                                🇺🇸 New York 11am<br />
+                                🇨🇦 Vancouver 8am<br />
+                                🇮🇳 Kanpur 8.30pm
                             </p>
                             <p>
-                            The TIBBE community is part of the larger <a href="https://brain-web.github.io">BrainWeb community</a>
-                            and you can explore your connections within the wider network.
+                                <a
+                                    data-value="events"
+                                    href="/#events"
+                                    style="border-bottom:thin solid white"
+                                >More details...</a>
                             </p>
-                            <div id="firebaseui-auth-container"></div>
-                        </q-card-section>
-                    </q-card>
-                </q-dialog>
-
-                <div class="container" style="margin-top: 0">
-
-                    <div v-cloak v-if="!spinning" class="row">
-                        <!-- Person's card -->
-                        <div v-if="cardDisplayName !== userDisplayName">
-                            <q-dialog v-model="displayCard">
-                                <q-card style="height:400px;width:400px">
-                                    <q-card-section>
-                                        <q-chip>
-                                            <q-avatar round size="48px">
-                                                <img :src="`https://avatars3.githubusercontent.com/u/${cardUID}?v=4`" />
-                                            </q-avatar>
-                                            <a v-cloak v-if="!spinning" class="col text-h6" :href="`https://github.com/${cardGitHubName}`">
-                                                {{cardDisplayName}}
-                                            </a>
-                                        </q-chip>
-                                    </q-card-section>
-                                    <q-card-section style="background: hsla(0,0%,100%,0.07);border-radius:4px 4px 0 0;margin:16px">
-                                        <q-chip v-cloak v-if="!spinning" color="dark" v-for="skill in cardSkills">
-                                            {{skill}}
-                                        </q-chip>
-                                    </q-card-section>
-                                </q-card>
-                            </q-dialog>
                         </div>
-                        <div v-else>
-                            <q-dialog v-model="displayCard" @hide="draw">
-                                <q-card style="height:400px;width:400px">
-                                    <q-card-section>
-                                        <q-chip>
-                                            <q-avatar round size="48px">
-                                                <img :src="`https://avatars3.githubusercontent.com/u/${uid}?v=4`" />
-                                            </q-avatar>
-                                            <a v-cloak v-if="!spinning" class="col text-h6" :href="`https://github.com/${userGitHubName}`">
-                                                {{userDisplayName}}
-                                            </a>
-                                        </q-chip>
-                                    </q-card-section>
-                                    <q-card-section>
-                                        <q-select
-                                            label="Skills"
-                                            filled
-                                            v-model="people[people.map((o)=>o.uid).indexOf(uid)].skills"
-                                            use-input
-                                            use-chips
-                                            multiple
-                                            hide-dropdown-icon
-                                            input-debounce="0"
-                                            new-value-mode="add-unique"
-                                            :options="options"
-                                            @filter="filterFn"
-                                            @new-value="createValue"
-                                        ></q-select>
-                                    </q-card-section>
-                                </q-card>
-                            </q-dialog>
+                        <div style="text-align: center; display:inline-block; vertical-align: top;">
+                            <img
+                                alt="Phylogenetic tree"
+                                src="./images/landing/AleAliSousa_mod.png"
+                                style="width:500px;padding-left: 20px; margin: 1rem" />
                         </div>
-                    </div>
+                    </div> -->
+
+                <!-- <a href="https://netneurosci.github.io/networks2021satellite"><h2 id="introkickoff">Upcoming: Network Neuroscience 2021</h2></a> -->
+
+                    <!-- <p><a href="https://meet.jit.si/BrainWeb" target="_blank"><span style="font-size:32px;margin-left:0px;">&#x2615;</span> &nbsp;European Coffee: 8 am UTC</a></p><br/> -->
+                    <!-- <p><a href="https://meet.jit.si/BrainWeb" target="_blank"><span style="font-size:44px;margin-left:-6px;">&#x1F964;</span> American Coffee: 2 pm UTC</a></p><br/> -->
+                    <!-- <p><a href="https://meet.jit.si/BrainWeb" target="_blank"><span style="font-size:38px;">&#x1F375;</span> Global Tea & &nbsp;<span style="font-size:30px;">&#x1F680;</span>&nbsp;Project updates: 5 pm UTC</a></p><br/> -->
+                    <!-- <p><a href="https://netneurosci.github.io/networks2021satellite" target="_blank">Check their growing community & submit your work</a></p><br/> -->
+
+                    <!-- for next BrainWeb coffee & catchup -->
+                    <!-- <p><a href="/videoconference/" target="_blank"><span style="font-size:38px;">&#x1F375;</span> Global C&C at 5 pm UTC</a></p><br/> -->
+
+                    <!-- for next event -->
+                    <!-- emoji -->
+                    <!-- <span style="font-size:38px;">&#x1F916;</span> -->
+                <!-- </div> -->
+                <!-- <div> -->
+                    <!-- Philipp Gunz -->
+                    <!-- <iframe
+                        width="1000px"
+                        height="600px"
+                        frameborder="0"
+                        marginheight="0"
+                        marginwidth="0"
+                        allowtransparency="true"
+                        src="https://www.crowdcast.io/e/a-mind-set-in-stone?navlinks=false&embed=true"
+                        style="border: 1px solid #EEE;border-radius:3px"
+                        allowfullscreen="true"
+                        webkitallowfullscreen="true"
+                        mozallowfullscreen="true"
+                        allow="microphone; camera;"
+                    ></iframe> -->
+
 
                 </div>
+
+                <span class="btn-scroll-down scroll"></span>
+
             </div>
-            <!-- </div> -->
+        </div>
+    </header>
 
 
-            <!-- part 1 landing network graph and about -->
-            <div v-cloak v-if="!spinning" class="row" id="landinggraph">
-                <div v-cloak v-if="!spinning" class="container" style="background: rgba(0,0,0,0.3);">
-                    <h4>TIBBE-BrainWeb</h4>
-                    <div v-cloak v-if="!spinning" class="row">
-
-                        <div v-cloak v-if="!spinning" id="programTableContainer">
-                            <div v-cloak v-if="!spinning" class="programTableDescription" style="margin-bottom:2rem;">
-                                <p>
-                                    A permanent space for the <i>The Integrative Biology of Brain Evolution</i> network community to find collaborators, projects and start working together.<br />
-                                </p>
-                                <p> 
-                                    We aim at fostering sharing data, tools and our experience across scales and taxa. The TIBBE-Web has been created to add a community component that allows to find collaborators and projects across labs.<br />
-                                    The TIBBE-Web is part of the larger <a href="https://brain-web.github.io" target="_blank">BrainWeb</a> and you can explore your connections in the larger network beyond brain evolution. 
-                                    <br/>
-                                </p>
-                            </div>
-
-                        </div> <!--programTableContainer-->
-
-                    </div> <!--row of landinggraph section-->
-
-                </div> <!--container of landinggraph section-->
-
-            </div> <!--landinggraph div-->
-
-            <!-- part 2 more info: background -->
-            <div v-cloak v-if="!spinning" class="row" id="landinggraph">
-                <div v-cloak v-if="!spinning" class="container" style="background: rgba(0,0,0,0.3);">
-                    <h4>Background</h4>
-                    <div v-cloak v-if="!spinning" class="row">
-
-                        <div v-cloak v-if="!spinning" id="programTableContainer">
-                            <div v-cloak v-if="!spinning" class="programTableDescription" style="margin-bottom:2rem;">
-                                <p>
-                                    Brains are the product of evolutionary processes that act on the entire organism. Selection acts directly on behaviour, but the brain also mediates behavioural responses to the environment.  Behavioural differences stem from developmental variability in the production of neural circuits, but some circuits may be more robust to developmental noise than others, and some neural traits may be significantly constrained. These dynamic processes and interactions shape the way the brain evolves across time, and in response to different selection regimes. Disentangling these interactions is difficult, making it challenging to identify specific factors that drive evolution. Yet, uncovering general principles that determine the evolvability of neural systems can illuminate factors that have influenced brain evolution.<br />
-                                </p>
-                                <p> 
-                                    Mechanisms of brain evolution are inevitably complex, and as such, identifying general principles affecting how brains and behaviour evolve is a major challenge. TIBBE – The Integrative Biology of Brain Evolution – aims to facilitate advances in this endeavour by encouraging integrative approaches, across disciplines, study systems and biological levels.  Our collaborative network will encourage and support synthesising data, methods and ideas from multiple studies and systems to generate more comprehensive insights into the evolutionary history of the brain. 
-                                    <br/>
-                                </p>
-                                <p> 
-                                    Our network is established at a time when brain evolution research is rapidly advancing, with new comparative brain data being generated through the use of a variety of techniques from behavioural observation, to advanced imaging techniques, spanning single cells and synapses to whole brain networks. In parallel, new developments in comparative statistics allow for integration across data types, and for more powerful and informative phylogenetic analyses. It is therefore timely to establish an infrastructure to exchange these data across scales and modalities, curate resources, tools and tutorials on how to use and integrate them, and build collaborations around a broader comparative framework that could foster insights in general mechanisms and patterns underlying brain evolution.  
-                                    <br/>
-                                </p>
-                                <h4>Objectives</h4>
-                                <p>
-                                    The broad goal of TIBBE is to encourage and support synthesising data, methods and ideas from multiple studies and systems to generate more comprehensive insights into the evolutionary history of the brain. Our three objectives focus on active research areas , and we will utilise the broad expertise within TIBBE to develop fundamental questions about brain evolution and an interdisciplinary research program.<br />
-                                </p>
-                                <p> 
-                                    i. Identify <b style="font-weight:700;"> common internal mechanisms of brain evolution, across species</b>. What developmental, physical, and evolutionary drivers and constraints act on brain composition and network architecture across animals? <br/>
-                                    <br/>
-                                    ii. Address <b style="font-weight:700;">how the brain evolves within the greater context of organismal functional physiology and ecology</b>. How do the evolution of brain structure, connectivity, and function interact with changes in the body, physiology, ecology and environment? <br/>
-                                    <br/>
-                                    iii. Determine <b style="font-weight:700;">whether certain brain structures and functions are more evolvable than others</b>. Do all behavioural circuits evolve according to similar rules? To what extent is evolvability influenced by the particular nature of the behaviour, features of the neural circuits, and/or other factors such as genetic and mechanical influences during development?     
-                                </p>
-                                <p> 
-                                    Our overriding belief is that to address these objectives we need to integrate analytical approaches and data across diverse species. The study of brain evolution is divided into communities with specific areas of expertise; ranging from molecular genetics, to comparative anatomy, paleoneurology, and neuroethology. Researchers are further divided according to the taxa they study. Currently, few bridges extend across these communities to identify common themes, motivations. Creating these bridges will support future endeavours aiming at a comprehensive understanding of brain evolution.    
-                                    <br/>
-                                </p>
-                                <h4>Outcomes</h4>
-                                <p>
-                                    TIBBE will bring together researchers working on brain evolution to exchange ideas, share expertise on tools and methods, share data, and discuss new findings. The network will be open to all brain evolution researchers to participate in events, (co-)organise events, and contribute to the web platform. This will facilitate interaction and collaboration among the wider brain evolution community, ensuring active integration of early-career researchers, creating an inclusive and diverse network.
-                                </p>
-                            </div>
-
-                        </div> <!--programTableContainer-->
-
-                    </div> <!--row of background section-->
-
-                </div> <!--container of more info background section-->
-
-            </div> <!--more info div-->
-
-
-            <!-- part 5 Organisers -->
-            <div v-cloak v-if="!spinning" class="row" id="organizers">
-                <div v-cloak v-if="!spinning" class="container" style="background: rgba(0,0,0,0.2);">
-                    <h4>Team of organisers</h4>
-                    <div v-cloak v-if="!spinning" class="row">
-
-                        <div id="programTableContainer">
-                            <div class="programTableDescription" style="padding-bottom:2rem;">
-                                <div id="organizerColumns">
-                                    <div id="organizerColumnLeft">
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://katjaq.github.io">Katja Heuer</a> (Institut Pasteur, France)<br/>
-                                                <a style="font-weight: 300;" href="https://twitter.com/katjaQheuer"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@katjaQheuer</a>
-                                            </p>
-                                        </div>
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://www.shmontgomery.co.uk/index.html">Stephen H Montgomery</a> (University of Bristol, UK)<br/>
-                                                <a style="font-weight: 300;" href="https://twitter.com/EBaBlab"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@EBaBlab</a>
-                                            </p>
-                                        </div>
-                                    </div><!--organizerColumn left-->
-
-                                    <div id="organizerColumnRight">
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://sites.google.com/site/alexandraallisonsousa">Alexandra A de Sousa</a> (Auburn University, USA)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/alealisousa"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@alealisousa</a>
-                                            </p>
-                                        </div>
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://neuroanatomy.github.io">Roberto Toro</a> (Institut Pasteur, France)<br/>
-                                                <a style="font-weight: 300;" href="https://twitter.com/R3RT0"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@R3RT0</a>
-                                            </p>
-                                        </div>
-                                    </div><!--organizerColumn right-->
-                                </div> <!--organizerColumns-->
-                            </div> <!--programTableDescription-->
-
-                        </div> <!--programTableContainer-->
-
-                    </div> <!--row of organizer section-->
-                    <!-- Organising committee -->
-                    <h4>Organising committee</h4>
-                    <div v-cloak v-if="!spinning" class="row">
-
-                        <div id="programTableContainer">
-                            <div class="programTableDescription" style="padding-bottom:2rem;">
-                                <div id="organizerColumns">
-                                    <div id="organizerColumnLeft">
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://www.behav.iee.unibe.ch/about_us/personen/dr_triki_zegni/index_eng.html">Zegni Triki</a> (Bern University, Switzerland)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/trikizegni"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@trikizegni</a>
-                                            </p>
-                                        </div>
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://www.gub.uy/ministerio-educacion-cultura/politicas-y-gestion/desarrollo-evolucion-neural">Maria Castello</a> (Instituto de Investigaciones Biológicas Clemente Estable (IIBCE), Ministerio de Educación y Cultura (MEC), Uruguay)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/maritacastello"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@maritacastello</a>
-                                            </p>
-                                        </div>
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://www.crick.ac.uk/research/labs/lucia-prieto-godino">Lucia Prieto-Godino</a> (The Francis Crick Institute, UK)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/neuroluci"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@neuroluci</a>
-                                            </p>
-                                        </div>
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="http://www.rbmars.dds.nl/lab.html">Rogier Mars</a> (University of Oxford & Donders Institute, Radboud University Nijmegen, UK and The Netherlands)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/neuroecologylab"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@neuroecologylab</a>
-                                            </p>
-                                        </div>
-                                    </div><!--organizerColumn left-->
-
-                                    <div id="organizerColumnRight">
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://carmen-falcone.com">Carmen Falcone</a> (SISSA Scuola Internazionale Superiore di Studi Avanzati, Italy)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/CarmenFalcone6"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@CarmenFalcone6</a>
-                                            </p>
-                                        </div>
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://www.researchgate.net/profile/Kristina-Kverkova">Kristina Kverkova</a> (Charles University, Czech Republic)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/kkverkova"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@kkverkova</a>
-                                            </p>
-                                        </div>
-                                        <div class="organizerCard">
-                                            <p>
-                                                <a href="https://institutducerveau-icm.org/en/member/?user=1622">Ornella Bertrand</a> (Universitat Autònoma de Barcelona, Spain)<br/>
-                                                <a style="font-weight: 300;" href="https://x.com/OrnellaBertrand"><img style="width:1.8rem;transform:translate(0,0px);margin-right:5px;" src="./images/landing/twitter_white.png" /img>@OrnellaBertrand</a>
-                                            </p>
-                                        </div>
-                                    </div><!--organizerColumn right-->
-                                </div> <!--organizerColumns-->
-                            </div> <!--programTableDescription-->
-
-                        </div> <!--programTableContainer-->
-
-                    </div> <!--row of organizer section-->
-
-                </div> <!--container of organizer section-->
-
-            </div> <!--organizers div-->
-
-
-
-            <!-- footer -->
-            <div class="row" id="CoC" v-if="!spinning" style="width:100%; position:relative; bottom:0px; margin:0;padding-top:1%;border:0; color:white; background:#111111;">
-                <p style="text-align: center; font-size: 1.4rem; width: 100%">Made with love &nbsp; ❤ &nbsp; <a href="https://github.com/brain-web/brain-web.github.io/blob/contributors" target="_blank">BrainWeb</a> &nbsp; ❤ &nbsp; Please respect the <a href="https://github.com/TIBBE-network.github.io/blob/main/CoC.md" target="_blank">TIBBE Code of Conduct.</a></p>
+    <!-- BrainWeb description -->
+    <div class="row mainpageparts hide" id="home">
+        <div class="container">
+            <!-- <h1>BrainWeb</h1> -->
+            <h1 id="introbrainweb" style="margin-bottom:-1.5rem;">BrainWeb</h1>
+            <div class="row">
+                <!-- left side 1 -->
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div data-aos="fade-in" data-aos-easing="linear" data-aos-duration="3000" data-aos-offset="0">
+                        <img data-aos="fade-in" data-aos-easing="linear" data-aos-duration="3000" data-aos-offset="0" src="./images/landing/brainweb-voronoi-1.png" style="width:60%;padding-top:2.8em;" class="img-fluid" alt="">
+                    </div>
+                    <div>
+                        <span></span>
+                    </div>
+                    <div>
+                        <p><br></p>
+                    </div>
+                </div>
+                <!-- right side 1 -->
+                <div class="col-lg-8 col-md-8 col-sm-12 desc">
+                    <h3>The BrainWeb</h3>
+                    <p>
+                        BrainWeb is a permanent virtual space for online collaborations on projects related to neuroscience. Inspired by initiatives such as Brainhack Global, BrainWeb aims at providing an online
+                        workspace to facilitate distributed collaboration on a continuous basis.
+                        <br/><br/>
+                    </p>
+                </div>
+                <!-- left side 2 -->
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div data-aos="fade-in" data-aos-easing="linear" data-aos-duration="3000" data-aos-offset="0">
+                        <img src="./images/landing/brainweb-voronoi-2.png" style="width:60%; filter:grayscale(50%) contrast(100%) opacity(90%); -webkit-filter:grayscale(60%) contrast(100%) opacity(90%);" class="img-fluid" alt="">
+                    </div>
+                    <div>
+                        <span></span>
+                    </div>
+                    <div>
+                        <p><br></p>
+                    </div>
+                </div>
+                <!-- right side 2 -->
+                <div class="col-lg-8 col-md-8 col-sm-12 desc">
+                    <h3>Online collaboration</h3>
+                    <p>
+                        We catch up online every 6 weeks: This is our regular opportunity to chat, present our progress, do spontaneous unconferences or kick off new projects and collaborations.
+                        <br>
+                        <br>
+                    </p>
+                </div>
+                <!-- left side 3 -->
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div data-aos="fade-in" data-aos-duration="3000" data-aos-offset="0">
+                        <img src="./images/landing/brainweb-voronoi-3.png" style="width:60%;filter:grayscale(50%) contrast(100%) opacity(90%); -webkit-filter:grayscale(50%) contrast(100%) opacity(90%);" class="img-fluid" alt="">
+                    </div>
+                    <div>
+                        <span></span>
+                    </div>
+                    <div>
+                        <p><br></p>
+                    </div>
+                </div>
+                <!-- right side 3 -->
+                <div class="col-lg-8 col-md-8 col-sm-12 desc">
+                    <h3>Propose a project</h3>
+                    <p>
+                        Before, during, and after the BrainWeb hackathons we will keep track of all BrainWeb projects. All you need to do to add your project to the BrainWeb community is to create a repository on GitHub and to add “BrainWeb” as a <i>topic</i>.
+                        <br> During our meetings, you are invited to pitch your project, find collaborators, break out into smaller meetings in parallel, and continue to work in teams after the online BrainWeb meeting.
+                    </p>
+                </div>
+                <!-- left side 4 -->
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div data-aos="fade-in" data-aos-duration="3000" data-aos-offset="0">
+                        <img src="./images/landing/brainweb-voronoi-4.png" style="width:60%;filter:grayscale(50%) contrast(100%) opacity(90%); -webkit-filter:grayscale(50%) contrast(100%) opacity(90%);" class="img-fluid" alt="">
+                    </div>
+                    <div>
+                        <span></span>
+                    </div>
+                    <div>
+                        <p><br></p>
+                    </div>
+                </div>
+                <!-- right side 4 -->
+                <div class="col-lg-8 col-md-8 col-sm-12 desc">
+                    <h3>Communication</h3>
+                    <p>
+                        While we all meet in the <a href="/videoconference/" target="_blank" style="cursor:pointer">videoconference</a> space, you can also create your own, more focused videoconference room to discuss & brainstorm in parallel. You will be able to find the
+                        list of all simultaneous project rooms in our shared Google Doc below. <br> We also encourage you to create a channel on <a href="https://mattermost.brainhack.org/signup_user_complete/?id=orpd9qqjb7gqpnwg5k1fdagrqa" target="_blank"
+                            style="cursor:pointer">Brainhack’s Mattermost</a> , to keep track of your progress and collaborate in between BrainWeb meetings. This will also make it easier for new collaborators to learn about what your team has already achieved.
+                    </p>
+                </div>
+                <!-- left side 5 -->
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div data-aos="fade-in" data-aos-duration="3000" data-aos-offset="0">
+                        <img src="./images/landing/brainweb-voronoi-5.png" style="width:60%;filter:grayscale(50%) contrast(100%) opacity(90%); -webkit-filter:grayscale(50%) contrast(100%) opacity(90%);" class="img-fluid" alt="">
+                    </div>
+                    <div>
+                        <span></span>
+                    </div>
+                    <div>
+                        <p><br></p>
+                    </div>
+                </div>
+                <!-- right side 5 -->
+                <div class="col-lg-8 col-md-8 col-sm-12 desc">
+                    <h3>Format</h3>
+                    <p>
+                        The <b>BrainWeb Series</b> will host an invited speaker every month aiming at lively discussions and creating interconnections beyond our labs between topics of our interest around evolution, development, philosophy, art, physics, computational geometry, computational neuroscience, neuroinformatics, and more! <br />
+                        <br />
+                        The <b>BrainWeb Catch up</b> will be our regular opportunity to chat, present our progress if you wish, do spontaneous unconferences or kick off new projects and collaborations. <br />
+                        <br />
+                        The <b>BrainWeb Hackathons</b> will combine project pitches as a start into 3 days of hacking together, unconferencing, coffee chats and a peek into project progress. At the end of the 3 days, each team is invited to share updates on their projects with the entire community!<br>
+                        <br />
+                        Let's work together no matter where we are!
+                    </p>
+                </div>
             </div>
+        </div>
+    </div>
 
 
+    <!-- part 2 Events -->
+    <div class="row mainpageparts hide" id="events">
+        <div class="container">
+            <h1>Events</h1>
+            <!-- visual head image of section -->
+            <div class="row">
+                <div data-aos="fade-in" data-aos-duration="3000" data-aos-offset="0">
+                    <img src="./images/landing/brainweb-connectome-in-a-sphere.png" style="padding-left:1em;padding-right:1em;padding-bottom:2em;filter:grayscale(80%) contrast(100%) opacity(90%); -webkit-filter:grayscale(80%) contrast(100%) opacity(90%);" class="img-fluid"
+                        alt="">
+                </div>
+            </div>
+            <div class="row">
+                <!-- two-spilt part -->
+                <!-- left side 1 -->
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div data-aos="fade-in" data-aos-duration="3000" data-aos-offset="0">
+                        <img src="https://www.eva.mpg.de/fileadmin/_processed_/3/c/csm_Gunz_Philipp_Portrait_2018_1_033181cfe5.jpg" style="width:60%;margin-left:30%;filter:grayscale(0%) contrast(100%) opacity(90%); -webkit-filter:grayscale(0%) contrast(100%) opacity(90%);" class="img-fluid" alt="">
+                    </div>
+                    <div>
+                        <p><br></p>
+                    </div>
+                </div>
+                <!-- right side 1 -->
+                <div class="col-lg-8 col-md-8 col-sm-12 desc">
+                    <h3>BrainWeb Series</h3>
+                    <p>05.07.2022. 3pm UTC</p>
+                    <p2 style="font-weight:900;font-size:16px;padding-top:0px;padding-bottom:0px;">Philipp Gunz &nbsp;&nbsp;</p2>
+                    <!-- <a href="https://twitter.com/AleAliSousa"><img src="/images/logo/twitter.png" style="width:17px;padding:0px;"></img>AleAliSousa</a> -->
+                    
+                    <p>
+                        <b style="font-weight:900;">A mind set in stone: fossil traces of human brain evolution</b><br/> 
+                        Brains do not fossilise, but as they grow and expand during fetal and infant development, they leave an imprint in the bony braincase. Such imprints of fossilised braincases provide direct evidence of brain evolution, but the underlying biological changes have remained elusive. Combining data from fossil skulls, ancient genomes, brain imaging and gene expression helps shed light on the evolutionary changes shaping the human brain. I will highlight two examples separated by more than 3 million years: the evolution of brain growth in Lucy and her kind, and differences between modern humans and Neanderthals. <br />
+                        <br />
+                        <a href="https://www.crowdcast.io/e/a-mind-set-in-stone"
+                            target="_blank" style="color:white; cursor: pointer">Let’s get together at 3pm UTC on Crowdcast!</a><br><br>
+                        <b style="font-weight:900;">Biosketch</b><br/> 
+                        Dr. Philipp Gunz is a biological anthropologist who studies the evolution of human development. Philipp obtained his PhD at the University of Vienna (2005), and works as a group leader at the Max Planck Institute for Evolutionary Anthropology in Leipzig, Germany. He is a specialist for the reconstruction of fossil skulls from computed tomographic scans, and the statistical analysis of shape. You can find out more about his research on: <a href="https://www.evodevo.de" target="_blank">https://www.evodevo.de</a>. <br/><br/>
+                        <!-- <br/><br/><br/> -->
+                        <!-- <br> Let's discuss together no matter where we are! -->
+                    </p>
+                    <p>
+                        <b style="font-weight:900;"><a href="./series/">> Past talks</a></b><br/> 
+                        <br/><br/>
+                    </p>
+                </div>
+            </div>
+            <!-- Agenda -->
+            <!-- <div id="csv">
+                <h1 style="padding-bottom:2rem;">Agenda</h1>
+                    <p style="padding-top:2rem; line-height:1.7em;">Please add the links to your breakout topic discussion rooms to our <a href="https://docs.google.com/spreadsheets/d/1q7KD6JnA1G8LBbHt1Dw5Aqje3c-6L6y4V4cqGbVohPY/edit#gid=0">BrainWeb topic session Google sheet</a> and they will automatically
+                        appear here in real time for the community to join.</p>
+            </div> -->
+        </div>
+        <div class="row mainpageparts hide" id="CoC" style="width:100%; position:absolute; bottom:-10px; margin:0;padding:0;border:0; color:white; background:#000000;">
+            <p style="font-size:14px;position:absolute;left:50%;transform: translate(-50%,0);">Made with love &nbsp; ❤ &nbsp; Please respect the <a href="https://github.com/brain-web/brain-web.github.io/blob/master/CoC.md" target="_blank">BrainWeb Code of Conduct.</a></p>
+        </div>
+    </div>
+    <!-- <footer class="page-footer font-small special-color-dark pt-4 hide">
+            <div class="footer-copyright text-center py-3">Made with love ❤ Please respect the
+                <a href="https://github.com/brain-web/brain-web.github.io/blob/master/CoC.md"> BrainWeb Code of Conduct.</a>
+            </div>
+        </footer> -->
 
-        </div> <!--q-app-->
+    <script src="/js/sentry.min.js" data-lazy="no"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/js/main.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
+    <script defer src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
 
-        <div id="dpi" style="height: 1in;left: -100%;position: absolute;top: -100%;width: 1in;"></div>
+    <script defer src="/js/init-firebase.js"></script>
 
-        <script src="./js/sentry.min.js" data-lazy="no"></script>
-        <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <!-- <script src="./js/main.js"></script> -->
-
-        <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/quasar@1.9.10/dist/quasar.umd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/quasar@1.9.10/dist/icon-set/svg-material-icons.umd.min.js"></script>
-
-        <script defer src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
-        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
-        <script defer src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
-        <script defer src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
-        <script defer src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
-        <script defer src="./js/init-firebase.js"></script>
-
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-        <script src="./community/brainweb.js"></script>
-        
-        <script type="module">
-
-            const circleName = "BrainWeb";
-            const skill =  "TIBBE";
-            const filterSkills = ["Evolution", "Histology", "Neuroimaging", "Brain evolution", "Primate", "Non-human primate", "Macaque", "Comparative MRI", "Open Science", "Data sharing"].map((s)=>s.toLowerCase());
-            // const filterSkills = ["python"];
-            const skills = [];
-
-            function arr2dic(arr) {
-                const dic = {};
-                for(let item of arr) {
-                    const {uid} = item;
-                    dic[uid] = {}
-                    for(let key of Object.keys(item)) {
-                        if(key !== "uid") {
-                            dic[uid][key] = item[key];
-                        }
-                    }
-                }
-                return dic;
+    <script type="module">
+      const fetchEventsSpreadsheet = () => {
+        const url = "https://docs.google.com/spreadsheets/d/1q7KD6JnA1G8LBbHt1Dw5Aqje3c-6L6y4V4cqGbVohPY/export?format=tsv&id=1q7KD6JnA1G8LBbHt1Dw5Aqje3c-6L6y4V4cqGbVohPY&gid=0"
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.send(null);
+        xhr.onreadystatechange = function() {
+          const DONE=4, OK=200;
+          if (xhr.readyState === DONE && xhr.status === OK) {
+            const txt = xhr.responseText;
+            const rows = txt.split("\n");
+            for (let i = 0; i < 2; i++) {
+              document.getElementById("csv").innerHTML += `<p>${rows[i]}</p>`;
             }
 
-            function dic2arr(dic) {
-                const arr = [];
-                for(let uid of Object.keys(dic)) {
-                    const item = {uid};
-                    for(let key of Object.keys(dic[uid])) {
-                        if(key!==uid) {
-                            item[key] = dic[uid][key];
-                        }
-                    }
-                    arr.push(item);
-                }
-                return arr;
+            let html = "<table border=1>\n"
+            for (let i = 2; i < rows.length; i++) {
+              const cols = rows[i].split(/\t[ ]*/);
+              html += "<tr>";
+              for (let j = 0; j < cols.length; j++) {
+                  html += `<td>${cols[j]}</td>`;
+              }
+              html += "</tr>\n";
             }
+            html += "</table>\n";
+            document.getElementById("csv").innerHTML += html;
+          } else {
+            console.log('Error: ' + xhr.status);
+          }
+        }
+      };
 
-            function update(databaseDic) {
-                if(app.uid === null) {
-                    app.spinning = false;
-                    return;
-                }
+      // eslint-disable-next-line no-undef
+      startFirebase();
+      console.log("startFirebase");
+      window.addEventListener('load', () => {
+        // eslint-disable-next-line no-undef
+        initApp({
+          loginUserFn: (user) => {
+            const { displayName, photoURL } = user;
+            document.querySelector("#userAvatar img").src = photoURL;
+            document.querySelector("#userAvatar").style.display = "inline-block";
+            document.getElementById("loginStatus").innerHTML = `<span id="user">${displayName}</span> (<a style="color:white" href="#" onclick="signOut()">Sign Out</a>)`;
+          },
+          logoutUserFn: () => {
+            document.querySelector("#userAvatar").style.display = "none";
+            document.querySelector("#userAvatar img").src = "";
+            document.getElementById("loginStatus").innerHTML = `<a style="color:white" href="#" onclick="signIn()">Sign In</a>`;
+            document.querySelectorAll(".logged").forEach((el) => { el.classList.remove("logged"); });
+          }
+        });
+      });
 
-                const { uid } = app;
-                const str = databaseDic[uid];
-                const obj = {};
-                obj[uid] = str;
-                firebase.database().ref(`circles/${circleName}`)
-                    .update(obj)
-                    .then(function(snapshot) {
-                        app.spinning = false;
-                        console.log('update: success');
-                    }, function(error) {
-                        app.spinning = false;
-                        Sentry.captureException(error);
-                        console.log('update: error', error);
-                    });
-            }
+      fetchEventsSpreadsheet();
+    </script>
 
-            function listen() {
-                var circles = firebase.database().ref(`circles/${circleName}`);
-                circles.on('value', async (s) => {
-                    var circle = s.val();
-                    if(circle === null) {
-                        return;
-                    }
+    <script>
+        AOS.init();
+    </script>
 
-                    databaseDicToPeopleArr(circle);
-                    addCurrentUser();
+    <!-- ObservableHQ 1 -->
+    <script type="module">
+      import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js"; import notebook from "https://api.observablehq.com/@katjaq/voronoi-update.js?v=3"; if(selectedChart == 0) { const main = new Runtime().module(notebook,
+      (name) => { if(name === "chart") { console.log(name); setTimeout(unhide,1000); return new Inspector(document.getElementById("chart")); } }); main.redefine("height",window.innerHeight); main.redefine("width",window.innerWidth); }
+    </script>
 
-                    const filteredPeople = 
-                        app.people.filter(
-                            (p) => (p.skills || []).some(
-                                (s) => filterSkills.includes(s.toLowerCase() || false)
-                            )
-                        )
-                    // const filteredPeople = app.people;
+    <!-- ObservableHQ 2 -->
+    <script type="module">
+      import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js"; import notebook from "https://api.observablehq.com/@katjaq/voronoi-update/2.js?v=3"; if(selectedChart > 0) { const main = new Runtime().module(notebook,
+      (name) => { if(name === "chart") { console.log(name); setTimeout(unhide,1000); return new Inspector(document.getElementById("chart2")); } }); main.redefine("height",window.innerHeight); main.redefine("width",window.innerWidth); }
+    </script>
 
-                    console.log("Number of people in the graph:", filteredPeople.length);
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138729622-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-138729622-3');
+    </script>
+</body>
 
-                    if(filteredPeople.length > 5) {
-                        await addBrainWebToElement(
-                            "#network",
-                            filteredPeople,
-                            app.userDisplayName,
-                            (user) => {
-                                app.displayCard = true;
-                                app.cardDisplayName = filteredPeople[user.index].displayname;
-                                app.cardGitHubName = filteredPeople[user.index].username;
-                                app.cardUID = filteredPeople[user.index].uid;
-                                app.cardSkills = filteredPeople[user.index].skills;
-                            }
-                        );
-                    } else {
-                      console.log("Graph too small to proceed", filteredPeople.length);
-                    }
-                    app.spinning = false;
-
-                    // setTimeout(() => {
-                    //     const p1 = document.getElementById('programDay1');
-                    //     const p1Header = p1.getElementsByClassName('programDayHeader')[0];
-                    //     const p2 = document.getElementById('programDay2');
-                    //     const p2Header = p2.getElementsByClassName('programDayHeader')[0];
-
-                    //     const before = document.getElementById('programDay1Before');
-                    //     const after = document.getElementById('programDay2After');
-
-                    //     function reworkTable() {
-                    //         before.style.height = '0px';
-                    //         after.style.height = '0px';
-
-                    //         const beforeSize = (p2.clientHeight - p2Header.clientHeight);
-                    //         const afterSize = (p1.clientHeight - p1Header.clientHeight);
-
-                    //         before.style.height = beforeSize + 'px';
-                    //         after.style.height = afterSize + 'px';
-                    //     }
-
-                    //     window.addEventListener('resize', reworkTable);
-                    //     reworkTable();
-                    // }, 500);
-
-                });
-            }
-
-            function databaseDicToPeopleArr(databaseDic) {
-                const oldPeople = app.people;
-
-                const incomingPeopleDic = databaseDic;
-                const incomingPeopleArr = dic2arr(incomingPeopleDic);
-                const newPeople = incomingPeopleArr.filter((person) => {
-                    const oldUIDs = oldPeople.map((o)=> o.uid);
-                    const includes = !(oldUIDs.includes(person.uid));
-                    return includes;
-                });
-                for(let p of newPeople) {
-                    if(typeof p.skills === "undefined") {
-                        p.skills = [];
-                    }
-                    if(typeof p.displayname === "undefined") {
-                        p.displayname = p.username;
-                    }
-                    for(let s of p.skills) {
-                        if(!skills.includes(s)) {
-                            skills.push(s);
-                        }
-                    }
-                    app.people.push(p);
-                }
-            }
-
-            function peopleArrToDatabaseDic(peopleArr) {
-                const arr = [];
-                for(let p of peopleArr) {
-                    arr.push(JSON.parse(JSON.stringify(p)));
-                }
-                const dic = arr2dic(peopleArr)
-                update(dic);
-            }
-
-            /**
-             * fetch user information given the GitHub user id number
-             */
-            async function fetchUserInfoFromGitHub(uid) {
-                let json, res;
-                try {
-                    res = await fetch(`https://api.github.com/user/${uid}`);
-                    json = await res.json();
-                } catch (err) {
-                    throw new Error(err);
-                }
-                return json;
-            }
-            // add it to the window element so that init-firebase.js can see it
-            window.fetchUserInfoFromGitHub = fetchUserInfoFromGitHub;
-
-            async function addCurrentUser() {
-                if(app.uid === null) {
-                    return;
-                }
-
-                const index = app.people.map((o)=>o.uid).indexOf(app.uid);
-
-                let isNewUser = (index === -1);
-                let isUserWithoutDisplayName = (typeof app.userDisplayName === "undefined");
-                if (isNewUser || isUserWithoutDisplayName) {
-                    const {login} = await fetchUserInfoFromGitHub(app.uid);
-                    const userDisplayName = app.userDisplayName || login;
-                    app.userDisplayName = userDisplayName;
-                    app.userGitHubName = login;
-                    if (isNewUser) {
-                        app.people.push({
-                            displayname: userDisplayName,
-                            username: login,
-                            uid: app.uid,
-                            skills: [skill]
-                        });
-                    }
-                    peopleArrToDatabaseDic(app.people);
-                } else {
-                    if (!app.people[index].skills.map((s) => s.toLowerCase()).includes(skill)) {
-                        app.people[index].skills.push(skill);
-                        peopleArrToDatabaseDic(app.people);
-                    }
-                    app.userGitHubName = app.people[index].username;
-                }
-
-                document.getElementById('user').addEventListener(
-                    'click',
-                    function () {
-                        app.displayCard = true;
-                        app.cardDisplayName = app.people[index].displayname;
-                        app.cardGitHubName = app.people[index].username;
-                        app.cardUID = app.people[index].uid;
-                        app.cardSkills = app.people[index].skills;
-                    }
-                )
-            }
-
-            Quasar.Dark.set(true);
-
-            const app = window.app = new Vue({
-                el: '#q-app',
-                data () {
-                    return {
-                        people: [],
-                        spinning: true,
-                        options: skills,
-                        userSignedIn: false,
-                        uid: null,
-                        userDisplayName: null,
-                        userGitHubName: "",
-                        userPicture: null,
-                        displayCard: false,
-                        displaySignIn: false,
-                        cardDisplayName: "",
-                        cardGitHubName: "",
-                        cardUID: "",
-                        cardSkills: []
-                    }
-                },
-                methods: {
-                    filterFn (val, update, abort) {
-                        update(() => {
-                            const needle = val.toLowerCase()
-                            this.options = skills.filter(v => v.toLowerCase().indexOf(needle) > -1)
-                        })
-                    },
-                    createValue (val, done) {
-                        skills.push(val)
-                        done(val)
-                    },
-                    deletePerson (e, index) {
-                        this.people.splice(index,1)
-                        event.stopPropagation()
-                    },
-                    draw (e) {
-                        app.spinning = true;
-                        peopleArrToDatabaseDic(this.people);
-                    },
-                    goTo (url) {
-                        window.location = url
-                    }
-                }
-            });
-            window.addEventListener('load', () => {
-                listen()
-            })
-        </script>
-
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSPQ6DP1LY"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-CSPQ6DP1LY');
-        </script> -->
-
-    </body>
 </html>
+
+<!--
+    References
+    1. https://bl.ocks.org/puzzler10/4438752bb93f45dc5ad5214efaa12e4a
+-->
