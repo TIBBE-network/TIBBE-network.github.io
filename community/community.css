@@ -66,10 +66,10 @@
 }
 #network {
     z-index: 50;
-    position: fixed;
+    position: absolute;
     width: 100%;
     top: 65px;
-    bottom:0;
+    bottom: 0;
     display: flex;
 }
 #network svg {
@@ -82,9 +82,12 @@
     70% { stroke-width: 10px; stroke-opacity: 0.5; }
     100% { stroke-width: 0; stroke-opacity: 0; }
 }
+/* invalid css */
+/*
 #network svg circle {
     r: 6;
 }
+*/
 #network svg circle.logged {
     stroke-width: 0;
     stroke: #DDD;
@@ -138,4 +141,10 @@
 .col {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+#additional-content {
+    position: relative;
+    margin-top: calc(100vh - 200px);
+    padding: 20px;
 }
