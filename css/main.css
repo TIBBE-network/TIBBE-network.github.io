@@ -712,6 +712,7 @@ a.btn.btn-outline-secondary.filter:hover, a.btn.btn-outline-secondary.filter:act
 /* Community picture gallery */
 #community {
     margin: 4em 0;
+    margin-bottom: 1em;
     /* padding: 0em; */
 }
 .picgallery {
@@ -739,6 +740,25 @@ img.zoom {
     transform: scale(1.2);
 }
 
+
+/* about TIBBE */
+#about {
+    position: relative;
+    margin-top: calc(100vh - 200px);
+    padding: 4em;
+    padding-bottom: 0;
+}
+
+/* Background info */
+#additional-content {
+    position: relative;
+    padding: 4em;
+    padding-bottom: 0;
+}
+
+h4 {
+    font-weight: 600;
+}
 
 /* Community */
 .partner-logos {
@@ -777,7 +797,7 @@ img.zoom {
 }
 #organizers {
     padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-bottom: 0rem;
     background: rgba(0,0,0,0.8);
 }
 #organizerColumns {
@@ -836,11 +856,12 @@ img.zoom {
     position: relative;
 }
 
+
 /* CoC */
 #CoC p {
     width: 100%;
     position:relative;
-    line-height: 1.8;
+    line-height: 1;
     font-weight: 300;
 }
 #CoC a {
@@ -853,9 +874,6 @@ img.zoom {
     text-decoration: none;
     border: none;
     color: grey;
-}
-h4 {
-    font-weight: 600;
 }
 
 

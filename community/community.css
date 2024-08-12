@@ -142,9 +142,3 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
-
-#additional-content {
-    position: relative;
-    margin-top: calc(100vh - 200px);
-    padding: 20px;
-}
