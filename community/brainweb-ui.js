@@ -124,7 +124,7 @@ export const addCurrentUser = async ({circleName, circleSkill, updateUserFn}) =>
     peopleArrToDatabaseDic({circleName, uid: app.uid, updateUserFn});
   } else {
     if(circleSkill) {
-      if (!app.people[index].skills.map((s) => s.toLowerCase()).includes(circleSkill)) {
+      if (!app.people[index].skills.map((s) => s.toLowerCase()).includes(circleSkill.toLowerCase())) {
         app.people[index].skills.push(circleSkill);
         peopleArrToDatabaseDic({circleName, uid: app.uid, updateUserFn});
       }
