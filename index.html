@@ -410,9 +410,9 @@
         // const circleSkill = null;
         const circleSkill = "TIBBE";
         const filterSkills = ["Evolution", "Histology", "Neuroimaging", "Brain evolution", "Primate", "Non-human primate", "Macaque", "Comparative MRI", "Open Science", "Data sharing"].map((s)=>s.toLowerCase());
-        // if(circleSkill) {
-        //     filterSkills.push(circleSkill);
-        // }
+        if(circleSkill) {
+            filterSkills.push(circleSkill);
+        }
 
         BW.init({
           appSel: "#q-app",
