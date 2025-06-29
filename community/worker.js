@@ -22,9 +22,9 @@ const peopleArrToNetwork = (peopleArr) => {
     for(let j=i+1; j<peopleArr.length; j++) {
       const src = peopleArr[i];
       const trg = peopleArr[j];
-      const srcSkills = src.skills;
-      const trgSkills = trg.skills;
-      const common = srcSkills.filter((skill) => trgSkills.includes(skill));
+      const srcSkills = [...new Set(src.skills)];
+      const trgSkills = new Set(trg.skills);
+      const common = srcSkills.filter((skill) => trgSkills.has(skill));
       if(common.length > 0) {
         links.push({source:src.displayname, target:trg.displayname, value: common.length});
       }
@@ -40,7 +40,7 @@ const networkToSkillsMatrix = (network, people) => {
   const names = network.nodes.map((o) => o.id);
   for(let i=0; i<N; i++) {
     matrix[i] = new Float32Array(N);
-    matrix[i][i] = people[i].skills.length;
+    matrix[i][i] = new Set(people[i].skills).size;
   }
   for(const e of network.links) {
     const i = names.indexOf(e.source);
@@ -215,7 +215,7 @@ const addBrainWebToElementWorkerFn = (people, userDisplayName, width, height) =>
   // add background link
   const N = matrix2.length;
   for(let i=0; i<N; i++) {
-    for(let j=i; j<N; j++) {
+    for(let j=0; j<N; j++) {
       matrix2[i][j] += 0.5;
     }
   }
